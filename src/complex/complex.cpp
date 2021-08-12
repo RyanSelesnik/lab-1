@@ -18,7 +18,12 @@ int main()
 			<< " + " << answer.imag() << "j" 
 			<< endl	<< endl;
 
-	// answer++;
+	// answer++; 
+
+	//Exercise 3.1 answer
+	// Line 21 doesn't work since answer is an object of the 'complex' class.
+	// Therefore, it cannot be incremented since it is not a numercal value,
+	// i.e., a float, int or double.
 
 	return 0;
 }
