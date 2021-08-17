@@ -1,3 +1,10 @@
+/*
+string::at(size_t pos) member function: returns a reference to the character at the specified position. 
+	Equivalent to str[pos], except .at() performs a range check and throws an exception if out of range. 
+
+See screen.h for uses of const keyword
+*/
+
 #include "screen.h"
 
 // Screen's constructor

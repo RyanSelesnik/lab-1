@@ -1,3 +1,17 @@
+/*
+Uses of the const keyword
+1) Indicate that a method does not modify the object's variables
+	e.g. char get() const
+2) Passing by const reference: prevents the variable from being modified, as modifications would affect it even outside the scope of the method
+	e.g. void set( const string& s );
+3) Specify a variable as constant. Prevents it from being modified during runtime
+	e.g. const string::size_type TOP_LEFT = 0;
+
+
+ See screen.cpp for string class at()
+*/
+
+
 #ifndef SCREEN_H
 #define SCREEN_H
 
