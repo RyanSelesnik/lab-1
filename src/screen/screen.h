@@ -28,6 +28,9 @@ using namespace std;
 
 class Screen {
 public:
+	// scoped enum for direction
+	enum struct Direction { HOME, FORWARD, BACK, UP, DOWN, END};
+
 	// Screen's constructor
 	Screen(string::size_type height, string::size_type width, char bkground = '#');
 
@@ -50,6 +53,8 @@ public:
 	void down();
 	// move the cursor to the specified row and column
 	void move(string::size_type row, string::size_type col);
+	// move the cursor in the specified direction
+	void move(Direction dir);
 
 	// get the character at the cursor's current position
 	char get() const { return _screen[cursor_]; }
