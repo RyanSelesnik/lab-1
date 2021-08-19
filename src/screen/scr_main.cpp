@@ -54,6 +54,11 @@ int main()
 		cursorRow++;
 	}
 	myScreen.display();
+
+	// draw empty square
+	myScreen.clear('#');
+	myScreen.drawEmptySquare(4, 4, 2);
+	myScreen.display();
 	return 0;
 }
 

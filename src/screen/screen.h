@@ -67,6 +67,8 @@ public:
 	void set( const string& s );
 	// overwrite the entire screen with the specified character
 	void clear( char bkground = '#');
+	// draw an empty square with top left corner at (topRow, leftCol)
+	void drawEmptySquare(int topRow, int leftCol, int sideLength);
 
 	// resize the screen
 	void reSize( string::size_type height, string::size_type width, char bkground = '#');
@@ -83,6 +85,7 @@ private:
 	// private member functions
 	string::size_type remainingSpace() const;
 	string::size_type row() const;
+	string blankStr(const int& length) const; // generate blank string of given length
 
 	// private data members
 	// (using a trailing underscore is a naming convention for private data - not a requirement)
