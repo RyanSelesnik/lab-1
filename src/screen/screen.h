@@ -9,6 +9,10 @@ Uses of the const keyword
 
 
  See screen.cpp for string class at()
+
+ Exercise 4.6: It would be more intuitive to represent the screen as a 2-D char array without affecting the public interface.
+ It is important to avoid changing the interface because client applications would be designed to use the original interface
+ Hence, changing the interface would likely cause issues in the client applications.
 */
 
 
