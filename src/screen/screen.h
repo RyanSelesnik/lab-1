@@ -1,3 +1,21 @@
+/*
+Uses of the const keyword
+1) Indicate that a method does not modify the object's variables
+	e.g. char get() const
+2) Passing by const reference: prevents the variable from being modified, as modifications would affect it even outside the scope of the method
+	e.g. void set( const string& s );
+3) Specify a variable as constant. Prevents it from being modified during runtime
+	e.g. const string::size_type TOP_LEFT = 0;
+
+
+ See screen.cpp for string class at()
+
+ Exercise 4.6: It would be more intuitive to represent the screen as a 2-D char array without affecting the public interface.
+ It is important to avoid changing the interface because client applications would be designed to use the original interface
+ Hence, changing the interface would likely cause issues in the client applications.
+*/
+
+
 #ifndef SCREEN_H
 #define SCREEN_H
 
@@ -14,6 +32,9 @@ using namespace std;
 
 class Screen {
 public:
+	// scoped enum for direction
+	enum struct Direction { HOME, FORWARD, BACK, UP, DOWN, END};
+
 	// Screen's constructor
 	Screen(string::size_type height, string::size_type width, char bkground = '#');
 
@@ -36,6 +57,8 @@ public:
 	void down();
 	// move the cursor to the specified row and column
 	void move(string::size_type row, string::size_type col);
+	// move the cursor in the specified direction
+	void move(Direction dir);
 
 	// get the character at the cursor's current position
 	char get() const { return _screen[cursor_]; }
@@ -48,6 +71,8 @@ public:
 	void set( const string& s );
 	// overwrite the entire screen with the specified character
 	void clear( char bkground = '#');
+	// draw an empty square with top left corner at (topRow, leftCol)
+	void drawEmptySquare(int topRow, int leftCol, int sideLength);
 
 	// resize the screen
 	void reSize( string::size_type height, string::size_type width, char bkground = '#');
@@ -64,6 +89,7 @@ private:
 	// private member functions
 	string::size_type remainingSpace() const;
 	string::size_type row() const;
+	string blankStr(const int& length) const; // generate blank string of given length
 
 	// private data members
 	// (using a trailing underscore is a naming convention for private data - not a requirement)

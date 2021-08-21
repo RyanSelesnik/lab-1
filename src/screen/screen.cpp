@@ -1,3 +1,11 @@
+/*
+string::at(size_t pos) member function: returns a reference to the character at the specified position. 
+	Equivalent to str[pos], except .at() performs a range check and throws an exception if out of range.
+ 
+
+See screen.h for uses of const keyword
+*/
+
 #include "screen.h"
 
 // Screen's constructor
@@ -32,9 +40,12 @@ void Screen::back()
 
 void Screen::up()
 {   // move cursor_ up one row of screen
-	// do not wrap around
-	if ( row() == 1 ) // at top?
-		cerr << "Screen::up - Cannot wrap around in a vertical direction" << endl;
+	
+	if (row() == 1) // at top? then wrap around
+		if (cursor_ == TOP_LEFT) // top left?
+			end(); // wrap to bottom right
+		else 
+			cursor_ = cursor_ - 1  + width() * (height() - 1); // wrap around to bottom of previous col
 	else
 		cursor_ -= width_;
 
@@ -43,9 +54,11 @@ void Screen::up()
 
 void Screen::down()
 {   // move cursor_ down one row of screen
-	// do not wrap around
 	if ( row() == height_ ) // at bottom?
-		cerr << "Screen::down - Cannot wrap around in a vertical direction" << endl;
+		if (cursor_ == _screen.size() - 1) // bottom right? then wrap around
+			home(); // wrap to top left
+		else 
+			cursor_ = cursor_ % width() + 1; // wrap around to top of next col
 	else
 		cursor_ += width_;
 
@@ -64,6 +77,32 @@ void Screen::move( string::size_type row, string::size_type col )
 
 	return;
 }
+
+void Screen::move(Direction dir) {
+	// move cursor in specified direction
+	// This method is not necessary. The client can just call the member functions directly.
+	switch (dir){
+	case Direction::HOME:
+			home();
+			break;
+	case Direction::FORWARD:
+		forward();
+		break;
+	case Direction::BACK:
+		back();
+		break;
+	case Direction::UP:
+		up();
+		break;
+	case Direction::DOWN:
+		down();
+		break;
+	case Direction::END:
+		end();
+		break;
+	}
+}
+
 
 char Screen::get( string::size_type row, string::size_type col )
 {
@@ -155,6 +194,39 @@ void Screen::display() const
 	return;
 }
 
+string Screen::blankStr(const int& length) const {
+	string str = "";
+	for (int i = 1; i <= length; i++)
+		str += ' ';
+	return str;
+}
+
+void Screen::drawEmptySquare(int topRow, int leftCol, int sideLength) {
+	// draws an empty square of the specified sideLength with top left corner at (topRow, leftCol)
+	
+	/* This method can be implemented without access to private members (in this implementation private access to cursor_ is used, but move() could be used instead).
+		It would be better practice to implement this as a non-member function as then it could be modified later without changing the class. */ 
+
+	// error check
+	if (topRow < 1 || leftCol < 1 || sideLength < 1 || topRow + sideLength > height_ + 1 || leftCol + sideLength > width_ + 1)
+	{	
+		cerr << "Invalid input parameters for 'drawEmptySquare'" << endl;
+		return;
+	}
+	
+	auto origCursor = cursor_; // save cursor position
+	move(topRow, leftCol); // place cursor in top left corner of square
+	string blanks = blankStr(sideLength); // generate string of 
+	for (int rows = 1; rows <= sideLength; rows++) {
+		auto temp = cursor_; // save current cursor position (so that it is unaffected by set())
+		set(blanks);
+		cursor_ = temp;
+		down();
+	}
+	cursor_ = origCursor;
+	return;
+}
+
 bool Screen::checkRange( string::size_type row, string::size_type col ) const
 {   // validate coordinates
 	if (row < 1 || row > height_ || col < 1 || col > width_)
@@ -175,4 +247,6 @@ string::size_type Screen::row() const
 {   // return current row
 	return (cursor_ + width_)/width_;
 }
+
+
 
